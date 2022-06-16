@@ -9,7 +9,6 @@
     
 
 $tickets = ['2205290001', '2205290002', '2206150001', '2206150002'];
-var_dump($tickets);
 
 function getNextTicket($tickets) {
 
