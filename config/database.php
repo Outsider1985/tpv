@@ -5,8 +5,8 @@
 		'driver' => 'mysql',
 		'host' => 'localhost',
 		'database' => 'tpv',
-		'user' => 'administrador_tpv',
-		'password' => 'password',
+		'user' => 'root',
+		'password' => 'entropia',
 
 	);
 

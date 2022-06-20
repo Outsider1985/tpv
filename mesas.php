@@ -3,8 +3,9 @@ require_once 'app/Controllers/TableController.php';
 
 use app\Controllers\TableController;
 
-$mesa = new TableController();
-$mesas = $mesa->index();
+$table = new TableController();
+$tables = $table->index();
+
 ?>
 
 <!DOCTYPE html>
@@ -31,22 +32,15 @@ $mesas = $mesa->index();
                 <section>
                     <h2 class="text-center">MESAS</h2>
                     <div class="row mb-5">
-                        <?php foreach ($mesas as $mesa): ?>
-                            <?php if( $mesa['estado'] == 1): ?>
-                                <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html"> <?=$mesa["numero"];?> </a></div>
+                        <?php foreach ($tables as $table): ?>
+                            <?php if(isset($_GET['mesa']) && $_GET['mesa']==$table["id"]): ?>
+                                <div class="col-4 gy-4"><a class="btn btn-primary w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.php?mesa=<?= $table["id"]?> "> <?=$table["number"]?> </a></div>
+                            <?php elseif($table['status'] == 1): ?>
+                                <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.php?mesa=<?= $table["id"]?> "> <?=$table["number"]?> </a></div>
                             <?php else: ?>
-                                <div class="col-4 gy-4"><a class="btn btn-danger w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html"> <?=$mesa["numero"];?> </a></div>
+                                <div class="col-4 gy-4"><a class="btn btn-danger w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.php?mesa=<?= $table["id"]?> "> <?=$table["number"]?> </a></div>
                             <?php endif; ?>
-                        <?php endforeach; ?> 
-                        <!-- <div class="col-4 gy-4"><a class="btn btn-primary g-4 w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">1</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">2</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">3</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">4</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">5</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-danger w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">6</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">7</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-danger w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">8</a></div>
-                        <div class="col-4 gy-4"><a class="btn btn-success w-100 p-4 p-sm-5 shadow-sm mesas rounded-0" role="button" href="categorias.html">9</a></div> -->
+                        <?php endforeach; ?>
                     </div>
                 </section>
             </div>

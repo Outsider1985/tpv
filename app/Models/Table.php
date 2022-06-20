@@ -10,7 +10,7 @@ class Table extends Connection{
 
 	public function index(){
 
-        $query =  "SELECT * FROM mesas WHERE activo = 1";
+        $query =  "SELECT * FROM tables WHERE active = 1";
                 
         $stmt = $this->pdo->prepare($query);
         $result = $stmt->execute();

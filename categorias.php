@@ -33,17 +33,17 @@ $categories = $category->index();
                     <div class="row">
                         <div class="col">
                             <ol class="breadcrumb mb-0 mt-3">
-                                <li class="breadcrumb-item"><a href="index.html"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
+                                <li class="breadcrumb-item"><a href="mesas.php?mesa=<?php echo $_GET['mesa'] ?>"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
                                 <li class="breadcrumb-item active" aria-current="page"><span><i class="icon ion-social-buffer-outline me-2"></i>Categorías</span></li>
                             </ol>
                         </div>
                     </div>
                     <div class="row mb-5">
                         <?php foreach ($categories as $category): ?>
-                            <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="<?=$category["url"];?>" ></a>
-                                <h5 class="text-center mb-0"> <?=$category["nombre"];?> </h5>
+                            <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="<?=$category['image_url']?>"></a>
+                                <h5 class="text-center mb-0"> <?=$category['name']?> </h5>
                             </div>
-                        <?php endforeach; ?> 
+                        <?php endforeach;?> 
                         <!-- <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/refrescos.jpeg"></a>
                             <h5 class="text-center mb-0">Refrescos</h5>
                         </div>

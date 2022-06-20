@@ -10,7 +10,7 @@ class ProductCategory extends Connection{
 
 	public function index(){
 
-        $query =  "SELECT * FROM product_categories WHERE activo = 1";
+        $query =  "SELECT * FROM product_category WHERE activo = 1";
                 
         $stmt = $this->pdo->prepare($query);
         $result = $stmt->execute();
