@@ -3,30 +3,45 @@ require_once 'app/Controllers/TicketController.php';
 
 use app\Controllers\TicketController;
 
+if(isset($_GET['mesa'])):
 $ticket = new TicketController();
-$tickets = $ticket->index();
+$tickets = $ticket->index($_GET['mesa']);
+endif;
 
 ?>
 
 <div class="col-12 col-lg-5 col-xl-4 mt-5">
     <aside>
+    <?php if(isset($_GET['mesa'])):?>
         <h2 class="text-center">TICKET MESA 1</h2>
+        
         <ul class="list-group shadow mt-4">
-        <?php foreach ($tickets as $ticket): ?>
-            <li class="list-group-item d-flex align-items-center"><button class="btn btn-light btn-sm me-2" type="button"><i class="la la-close"></i></button><img class="img-ticket" src="assets/img/cocacola.png">
-                <div class="flex-grow-1"><span class="categoria-prod">Refrescos</span>
-                    <h4 class="nombre-prod mb-0"><?=$ticket['id']?></h4><span class="medida-prod">20 ml.</span>
-                </div>
-                <p class="precio-prod">2.70 €</p>
-            </li>
-        <?php endforeach; ?>
+            <?php $total_imponible = 0; ?>
+            <?php $total_iva = 0; ?>
+            <?php $total_final = 0; ?>
+            <?php foreach($tickets as $ticket): ?>
+                <li class="list-group-item d-flex align-items-center">
+                    <button class="btn btn-light btn-sm me-2" type="button"><i class="la la-close"></i></button>
+                    <img class="img-ticket" src="<?= $ticket['IMAGEN'] ?>">
+                    <div class="flex-grow-1">
+                        <span class="categoria-prod"><?= $ticket['CATEGORIA'] ?></span>
+                        <h4 class="nombre-prod mb-0"><?= $ticket['PRODUCTO'] ?></h4>
+                    </div>
+                    <p class="precio-prod"><?= $ticket['BASE_IMPONIBLE'] ?></p>
+                </li>
+                <?php $total_imponible += round($ticket['BASE_IMPONIBLE'], 2); ?>
+                <?php $porcentaje_iva = $ticket['IVA'];?>
+                <?php $multiplicador = 1+$porcentaje_iva/100;?>
+                <?php $total_final = round(($total_imponible * $multiplicador), 2); ?>
+            <?php endforeach;?>
         </ul>
+        
         <div class="row mt-3">
             <div class="col">
                 <div class="bg-secondary">
                     <div class="row justify-content-between g-0">
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 pt-1">B. Imponible</h5>
+                            <h5 class="text-center text-white mb-0 pt-1">B. IMPONIBLE</h5>
                         </div>
                         <div class="col">
                             <h5 class="text-center text-white mb-0 border-start pt-1">IVA</h5>
@@ -37,18 +52,19 @@ $tickets = $ticket->index();
                     </div>
                     <div class="row justify-content-between g-0">
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 pb-1">74.30 €</h5>
+                            <h5 class="text-center text-white mb-0 pb-1"><?=$total_imponible?> €</h5>
                         </div>
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 border-start pb-1">21%</h5>
+                            <h5 class="text-center text-white mb-0 border-start pb-1"><?php if(isset($porcentaje_iva)):?><?=$porcentaje_iva?><?php endif;?>%</h5>
                         </div>
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 bg-dark pb-1">102.45 €</h5>
+                            <h5 class="text-center text-white mb-0 bg-dark pb-1"><?=$total_final?> €</h5>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="row mt-3 mb-3">
             <div class="col-6">
                 <div><a class="btn btn-danger btn-lg w-100" role="button" href="#myModal" data-bs-toggle="modal">ELIMINAR</a>
@@ -89,5 +105,6 @@ $tickets = $ticket->index();
                 </div>
             </div>
         </div>
+    <?php endif;?>
     </aside>
 </div>

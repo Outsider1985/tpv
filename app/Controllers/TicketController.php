@@ -15,8 +15,8 @@ class TicketController {
 		$this->ticket = new Ticket();
 	}
 
-	public function index(){
-		return $this->ticket->index();
+	public function index($mesa){
+		return $this->ticket->index($mesa);
 	}
 }
 
