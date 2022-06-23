@@ -18,6 +18,10 @@ class ProductController {
 	public function index($category){
 		return $this->product->index($category);
 	}
+
+	public function show($category){
+		return $this->product->show($category);
+	}
 }
 
 ?>

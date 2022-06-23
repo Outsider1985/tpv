@@ -6,6 +6,8 @@ use app\Controllers\TicketController;
 if(isset($_GET['mesa'])):
 $ticket = new TicketController();
 $tickets = $ticket->index($_GET['mesa']);
+$totales = $ticket->total($_GET['mesa']);
+$table = $ticket->show($_GET['mesa']);
 endif;
 
 ?>
@@ -13,12 +15,12 @@ endif;
 <div class="col-12 col-lg-5 col-xl-4 mt-5">
     <aside>
     <?php if(isset($_GET['mesa'])):?>
-        <h2 class="text-center">TICKET MESA 1</h2>
+        <h2 class="text-center">TICKET MESA <?php $table['NUMERO'] ?></h2>
         
         <ul class="list-group shadow mt-4">
-            <?php $total_imponible = 0; ?>
-            <?php $total_iva = 0; ?>
-            <?php $total_final = 0; ?>
+            <?php if(empty($tickets)): ?>
+                <div class="p-4"> <h4>MESA SIN PRODUCTOS</h4> </div>
+            <?php else: ?>
             <?php foreach($tickets as $ticket): ?>
                 <li class="list-group-item d-flex align-items-center">
                     <button class="btn btn-light btn-sm me-2" type="button"><i class="la la-close"></i></button>
@@ -27,13 +29,10 @@ endif;
                         <span class="categoria-prod"><?= $ticket['CATEGORIA'] ?></span>
                         <h4 class="nombre-prod mb-0"><?= $ticket['PRODUCTO'] ?></h4>
                     </div>
-                    <p class="precio-prod"><?= $ticket['BASE_IMPONIBLE'] ?></p>
+                    <p class="precio-prod"><?= $ticket['BASE_IMPONIBLE_INDEX'] ?> €</p>
                 </li>
-                <?php $total_imponible += round($ticket['BASE_IMPONIBLE'], 2); ?>
-                <?php $porcentaje_iva = $ticket['IVA'];?>
-                <?php $multiplicador = 1+$porcentaje_iva/100;?>
-                <?php $total_final = round(($total_imponible * $multiplicador), 2); ?>
             <?php endforeach;?>
+            <?php endif; ?>
         </ul>
         
         <div class="row mt-3">
@@ -50,17 +49,31 @@ endif;
                             <h5 class="text-center text-white mb-0 bg-dark pt-1">TOTAL</h5>
                         </div>
                     </div>
+                    <?php if(isset($totales)&&$totales['BASE_IMPONIBLE_TOTALES']>0):?>
                     <div class="row justify-content-between g-0">
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 pb-1"><?=$total_imponible?> €</h5>
+                            <h5 class="text-center text-white mb-0 pb-1"><?=$totales['BASE_IMPONIBLE_TOTALES']?>€</h5>
                         </div>
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 border-start pb-1"><?php if(isset($porcentaje_iva)):?><?=$porcentaje_iva?><?php endif;?>%</h5>
+                            <h5 class="text-center text-white mb-0 border-start pb-1"><?=$totales['IVA']?> €</h5>
                         </div>
                         <div class="col">
-                            <h5 class="text-center text-white mb-0 bg-dark pb-1"><?=$total_final?> €</h5>
+                            <h5 class="text-center text-white mb-0 bg-dark pb-1"><?=$totales['TOTAL']?> €</h5>
                         </div>
                     </div>
+                    <?php else: ?>
+                    <div class="row justify-content-between g-0">
+                        <div class="col">
+                            <h5 class="text-center text-white mb-0 pb-1">0€</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class="text-center text-white mb-0 border-start pb-1">0€</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class="text-center text-white mb-0 bg-dark pb-1">0€</h5>
+                        </div>
+                    </div>
+                    <?php endif;?>
                 </div>
             </div>
         </div>

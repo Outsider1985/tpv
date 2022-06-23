@@ -18,6 +18,8 @@ class TableController {
 	public function index(){
 		return $this->table->index();
 	}
+
+	
 }
 
 ?>

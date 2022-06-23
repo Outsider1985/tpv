@@ -17,6 +17,8 @@ class Table extends Connection{
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+        
 }
 
 ?>
