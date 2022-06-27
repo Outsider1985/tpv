@@ -7,7 +7,7 @@ if(isset($_GET['mesa'])):
 $ticket = new TicketController();
 $tickets = $ticket->index($_GET['mesa']);
 $totales = $ticket->total($_GET['mesa']);
-$table = $ticket->show($_GET['mesa']);
+$tables = $ticket->show($_GET['mesa']);
 endif;
 
 ?>
@@ -15,13 +15,13 @@ endif;
 <div class="col-12 col-lg-5 col-xl-4 mt-5">
     <aside>
     <?php if(isset($_GET['mesa'])):?>
-        <h2 class="text-center">TICKET MESA <?php $table['NUMERO'] ?></h2>
+        <h2 class="text-center">TICKET MESA <?=$tables['NUMERO']?></h2>
         
         <ul class="list-group shadow mt-4">
-            <?php if(empty($tickets)): ?>
+            <?php if(empty($tickets)):?>
                 <div class="p-4"> <h4>MESA SIN PRODUCTOS</h4> </div>
             <?php else: ?>
-            <?php foreach($tickets as $ticket): ?>
+            <?php foreach($tickets as $ticket):?>
                 <li class="list-group-item d-flex align-items-center">
                     <button class="btn btn-light btn-sm me-2" type="button"><i class="la la-close"></i></button>
                     <img class="img-ticket" src="<?= $ticket['IMAGEN'] ?>">

@@ -33,41 +33,17 @@ $categories = $category->index();
                     <div class="row">
                         <div class="col">
                             <ol class="breadcrumb mb-0 mt-3">
-                                <li class="breadcrumb-item"><a href="mesas.php?mesa=<?php echo $_GET['mesa'] ?>"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
+                                <li class="breadcrumb-item"><a href="mesas.php?mesa=<?= $_GET['mesa'] ?>"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
                                 <li class="breadcrumb-item active" aria-current="page"><span><i class="icon ion-social-buffer-outline me-2"></i>Categorías</span></li>
                             </ol>
                         </div>
                     </div>
                     <div class="row mb-5">
                         <?php foreach ($categories as $category): ?>
-                            <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.php?mesa=<?php echo $_GET['mesa'] ?>&categorias=<?=$category['id']?>"><img src="<?=$category['image_url']?>"></a>
-                                <h5 class="text-center mb-0"> <?=$category['name']?> </h5>
+                            <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.php?mesa=<?= $_GET['mesa'] ?>&categorias=<?=$category['ID_CATEGORIA']?>"><img src="<?=$category['IMAGEN_CATEGORIA']?>"></a>
+                                <h5 class="text-center mb-0"> <?=$category['NOMBRE_CATEGORIA']?> </h5>
                             </div>
                         <?php endforeach;?> 
-                        <!-- <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/refrescos.jpeg"></a>
-                            <h5 class="text-center mb-0">Refrescos</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/alcohol.jpeg"></a>
-                            <h5 class="text-center mb-0">Bebidas alcohólicas</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/caliente.jpeg"></a>
-                            <h5 class="text-center mb-0">Bebidas calientes</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/aperitivos.jpeg"></a>
-                            <h5 class="text-center mb-0">Aperitivos</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/tapas.jpeg"></a>
-                            <h5 class="text-center mb-0">Tapas</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/carnes.jpeg"></a>
-                            <h5 class="text-center mb-0">Carnes</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/pescado.jpeg"></a>
-                            <h5 class="text-center mb-0">Pescados</h5>
-                        </div>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="productos.html"><img src="assets/img/postres.png"></a>
-                            <h5 class="text-center mb-0">Postres</h5>
-                        </div> -->
                     </div>
                 </section>
             </div>

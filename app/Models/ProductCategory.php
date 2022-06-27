@@ -10,7 +10,11 @@ class ProductCategory extends Connection{
 
 	public function index(){
 
-        $query =  "SELECT * FROM product_category WHERE active = 1";
+        $query =  "SELECT product_category.name AS NOMBRE_CATEGORIA, product_category.id AS ID_CATEGORIA, product_category.image_url AS IMAGEN_CATEGORIA
+        FROM product_category
+        INNER JOIN product ON product_category.id = product.category_id
+        WHERE product_category.active = 1 AND product.visible = 1
+        GROUP BY product.category_id";
                 
         $stmt = $this->pdo->prepare($query);
         $result = $stmt->execute();

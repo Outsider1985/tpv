@@ -24,7 +24,7 @@ class TicketController {
 	}
 
 	public function show($table){
-		return $this->table->show($table);
+		return $this->ticket->show($table);
 	}
 }
 
