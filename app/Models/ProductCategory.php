@@ -14,7 +14,7 @@ class ProductCategory extends Connection{
         FROM product_category
         INNER JOIN product ON product_category.id = product.category_id
         WHERE product_category.active = 1 AND product.visible = 1
-        GROUP BY product.category_id";
+        GROUP BY product_category.id";
                 
         $stmt = $this->pdo->prepare($query);
         $result = $stmt->execute();

@@ -35,8 +35,8 @@ $category = $product->show($_GET['categorias']);
                     <div class="row">
                         <div class="col">
                             <ol class="breadcrumb mb-0 mt-3">
-                                <li class="breadcrumb-item"><a href="mesas.php?mesa=<?php echo $_GET['mesa'] ?>"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
-                                <li class="breadcrumb-item"><a href="categorias.php?mesa=<?php echo $_GET['mesa'] ?>&categorias=<?php echo $_GET['categorias'] ?>"><span><i class="icon ion-social-buffer-outline me-2"></i>Categoría</span></a></li>
+                                <li class="breadcrumb-item"><a href="mesas.php?mesa=<?= $_GET['mesa'] ?>"><span><i class="icon ion-android-home me-2"></i>INICIO</span></a></li>
+                                <li class="breadcrumb-item"><a href="categorias.php?mesa=<?= $_GET['mesa'] ?>&categorias=<?= $_GET['categorias'] ?>"><span><i class="icon ion-social-buffer-outline me-2"></i>Categoría</span></a></li>
                                 <li class="breadcrumb-item active" aria-current="page"><span><i class="icon ion-android-apps me-2"></i><?=$category['CATEGORIA']?></span></li>
                             </ol>
                         </div>
