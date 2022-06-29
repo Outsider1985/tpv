@@ -4,12 +4,25 @@ require_once 'app/Controllers/SaleController.php';
 use app\Controllers\SaleController;
 
 $sale = new SaleController();
-$sales = $sale->index();
 
-if(isset($_GET['venta'])):
-$showSale = $sale->show($_GET['venta']);
-endif;
+if(empty($_GET['fecha']) && empty($_GET['mesa'])){
+    $date = date('Y-M-D');
+    $table = '1,2,3,4,5,6,7,8,9';
+    $sales = $sale->index($date, $table);
+}elseif(isset($_GET['fecha']) && empty($_GET['mesa'])){
+    $date = $_GET['fecha'];
+    $table = '1,2,3,4,5,6,7,8,9';
+    $sales = $sale->index($date, $table);
+}else{
+    $date = date('Y-M-D');
+    $table = $_GET['mesa'];
+    $sales = $sale->index($date, $table);
+}
 
+if(isset($_GET['venta'])){
+    $showSale = $sale->showSale($_GET['venta']);
+    $showProducts = $sale->showProducts($_GET['venta']);
+}
 
 ?>
 
@@ -56,11 +69,81 @@ endif;
                     </div>
                 <?php endif; ?>
                 </section>
+                <table class="table">
+                        <thead>
+                                <tr>
+                                    <th class="text-center"scope="col"></th>
+                                    <th class="text-center" scope="col">Nombre</th>
+                                    <th class="text-center" scope="col">Precio Base</th>
+                                    <th class="text-center" scope="col">Cantidad</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                        <?php if(isset($_GET['venta'])):?>
+
+                        <?php foreach($showProducts as $product):?>
+                                <tr>
+                                    <td class="text-center"><img class="img-ticket" src="<?=$product['pimg']?>"></td>
+                                    <td class="text-center"><?=$product['pn']?></td>
+                                    <td class="text-center"><?=$product['bp']?> €</td>
+                                    <td class="text-center"><?=$product['q']?></td>
+                                </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        </tbody>    
+                </table>
             </div>
 
             <div class="col-12 col-lg-5 col-xl-4 mt-5">
                 <aside>
                     <h2 class="text-center">VENTAS</h2>
+
+                    <form action="ventas.php" method="GET">
+
+                        <div class="row mt-3 mb-3">
+                            <div class="col-6">
+                                <p>Filtrar por fecha:</p>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="date" name="fecha" value="<?=$date?>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 mb-3">
+                            <div class="col-6">
+                                <p>Filtrar por mesa:</p>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select name="mesa" class="form-control">
+                                        <option value="">Todas</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                            </div>
+                        </div>
+
+                    </form>
+
                     <div class="list-group">
 
                     <?php foreach($sales as $sale):?>
@@ -93,6 +176,7 @@ endif;
                     </div>
 
                 </aside>
+                
             </div>
 
         </div>

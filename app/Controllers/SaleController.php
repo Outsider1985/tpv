@@ -15,13 +15,17 @@ class SaleController {
 		$this->sale = new Sale();
 	}
 
-	public function index(){
-		return $this->sale->index();
+	public function index($date, $table){
+		return $this->sale->index($date, $table);
 	}
 
-    public function show($sale){
-        return $this->sale->show($sale);
+    public function showSale($sale){
+        return $this->sale->showSale($sale);
     }
+
+	public function showProducts($sale){
+		return $this->sale->showProducts($sale);
+	}
 
 }
 

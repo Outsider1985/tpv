@@ -8,7 +8,7 @@ use core\Connection;
 
 class Sale extends Connection{
 
-	public function index(){
+	public function index($date, $table){
 
                 $query =
                         "SELECT sales.id AS idx,
@@ -19,7 +19,7 @@ class Sale extends Connection{
                         total_price AS tpx 
                         FROM sales 
                         INNER JOIN tables ON tables.id = sales.table_id
-                        WHERE sales.active = 1";
+                        WHERE sales.active = 1 AND sales.date_issue ='$date' AND sales.table_id IN ($table)";
                         
                 $stmt = $this->pdo->prepare($query);
                 $result = $stmt->execute();
@@ -27,7 +27,7 @@ class Sale extends Connection{
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function show($sale){
+    public function showSale($sale){
 
         $query =
                         "SELECT sales.id AS id, 
@@ -49,6 +49,24 @@ class Sale extends Connection{
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
 
+    }
+
+    public function showProducts($sale){
+
+        $query =
+        
+        "SELECT product.name AS pn, SUM(price.base_price) AS bp, product.image_url AS pimg, COUNT(product.name) AS q
+        FROM sales 
+        INNER JOIN `ticket` ON sales.id = ticket.sales_id
+        INNER JOIN `price` ON ticket.price_id = price.id
+        INNER JOIN `product` ON price.product_id = product.id
+        WHERE sales.active = 1 AND sales.id = $sale
+        GROUP BY product.id";
+                        
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+        
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
