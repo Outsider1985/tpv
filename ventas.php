@@ -1,24 +1,19 @@
 <?php
 require_once 'app/Controllers/SaleController.php';
+require_once 'app/Controllers/TableController.php';
 
 use app\Controllers\SaleController;
+use app\Controllers\TableController;
 
+//Creating objects
 $sale = new SaleController();
-
-if(empty($_GET['fecha']) && empty($_GET['mesa'])){
-    $date = date('Y-M-D');
-    $table = '1,2,3,4,5,6,7,8,9';
-    $sales = $sale->index($date, $table);
-}elseif(isset($_GET['fecha']) && empty($_GET['mesa'])){
-    $date = $_GET['fecha'];
-    $table = '1,2,3,4,5,6,7,8,9';
-    $sales = $sale->index($date, $table);
-}else{
-    $date = date('Y-M-D');
-    $table = $_GET['mesa'];
-    $sales = $sale->index($date, $table);
-}
-
+$table_controller = new TableController();
+//Setting variables
+$table = empty($_GET['mesa']) ?  null : $_GET['mesa'];
+$date = empty($_GET['fecha']) ?  date('Y-m-d') : $_GET['fecha'];
+//Calling methods
+$sales = $sale->index($date, $table);
+$table_numbers = $table_controller->index();
 if(isset($_GET['venta'])){
     $showSale = $sale->showSale($_GET['venta']);
     $showProducts = $sale->showProducts($_GET['venta']);
@@ -122,15 +117,9 @@ if(isset($_GET['venta'])){
                                 <div class="form-group">
                                     <select name="mesa" class="form-control">
                                         <option value="">Todas</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
+                                        <?php foreach($table_numbers as $table_number):?>
+                                            <option value="<?= $table_number['number'] ?>" <?= $table_number['number'] == $table ? 'selected': ''  ?> > <?= $table_number['number'] ?></option>
+                                        <?php endforeach;?>
                                     </select>
                                 </div>
                             </div>
@@ -150,7 +139,7 @@ if(isset($_GET['venta'])){
 
                         <?php if(isset($_GET['venta']) && $_GET['venta']==$sale['idx']): ?>
 
-                        <a class="sale-item list-group-item list-group-item-action active" href="ventas.php?venta=<?=$sale['idx']?>" aria-current="true">
+                        <a class="sale-item list-group-item list-group-item-action active" href="ventas.php?venta=<?=$sale['idx']?>&fecha=<?=$_GET['fecha']?>&mesa=<?=$_GET['mesa']?>" aria-current="true">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Ticket: <?=$sale['tnx']?></h5>
                                 <small>Hora: <?=$sale['tix']?></small>
@@ -161,7 +150,7 @@ if(isset($_GET['venta'])){
 
                     <?php else: ?>
 
-                        <a class="sale-item list-group-item list-group-item-action" href="ventas.php?venta=<?=$sale['idx']?>" aria-current="true">
+                        <a class="sale-item list-group-item list-group-item-action" href="ventas.php?venta=<?=$sale['idx']?>&fecha=<?=$_GET['fecha']?>&mesa=<?=$_GET['mesa']?>" aria-current="true">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Ticket: <?=$sale['tnx']?></h5>
                                 <small>Hora: <?=$sale['tix']?></small>

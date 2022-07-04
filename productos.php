@@ -44,7 +44,10 @@ $category = $product->show($_GET['categorias']);
                     <div class="row mb-5">
                     <?php foreach ($products as $product): ?>
                         <?php if(isset($_GET['categorias']) && $_GET['categorias']==$product["category_id"]): ?>
-                        <div class="col-6 col-md-4 gy-4"><a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="#medidas" data-bs-toggle="modal"><img src="<?=$product['image_url']?>"></a>
+                        <div class="add-product col-6 col-md-4 gy-4" data-table="<?= $_GET['mesa'] ?>" data-price="<?= $producto['price_id'];?>">
+                            <a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="#medidas" data-bs-toggle="modal">
+                                <img src="<?=$product['image_url']?>">
+                            </a>
                             <h5 class="text-center mb-0"><?=$product['name']?></h5>
                         </div>
                         <?php endif; ?>
@@ -74,7 +77,10 @@ $category = $product->show($_GET['categorias']);
             </div>
         </div>
     </div>
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="module" src="dist/main.js"></script>
+
 </body>
 
 </html>

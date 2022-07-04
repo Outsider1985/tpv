@@ -10,21 +10,39 @@ class Sale extends Connection{
 
 	public function index($date, $table){
 
-                $query =
-                        "SELECT sales.id AS idx,
-                        ticket_number AS tnx,  
-                        time_issue AS tix, 
-                        date_issue AS dix, 
-                        tables.number AS mesax, 
-                        total_price AS tpx 
-                        FROM sales 
-                        INNER JOIN tables ON tables.id = sales.table_id
-                        WHERE sales.active = 1 AND sales.date_issue ='$date' AND sales.table_id IN ($table)";
-                        
-                $stmt = $this->pdo->prepare($query);
-                $result = $stmt->execute();
+        if($table == null){
+
+            $query =
+                "SELECT sales.id AS idx,
+                ticket_number AS tnx,  
+                time_issue AS tix, 
+                date_issue AS dix, 
+                tables.number AS mesax, 
+                total_price AS tpx 
+                FROM sales 
+                INNER JOIN tables ON tables.id = sales.table_id
+                WHERE sales.active = 1 AND sales.date_issue ='$date'";
+                
+        }else{
+
+            $query =
+                "SELECT sales.id AS idx,
+                ticket_number AS tnx,  
+                time_issue AS tix, 
+                date_issue AS dix, 
+                tables.number AS mesax, 
+                total_price AS tpx 
+                FROM sales 
+                INNER JOIN tables ON tables.id = sales.table_id
+                WHERE sales.active = 1 AND sales.date_issue ='$date' AND sales.table_id = $table";
+        }
+
         
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+        $stmt = $this->pdo->prepare($query);
+        $result = $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function showSale($sale){
