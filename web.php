@@ -1,8 +1,10 @@
 <?php
 
     require_once 'app/Controllers/TicketController.php';
+    require_once 'app/Controllers/TableController.php';
   
     use app\Controllers\TicketController;
+    use app\Controllers\TableController;
 
     //recibirá un json
     header("Content-Type: application/json");
@@ -21,12 +23,15 @@
             case 'addProduct':
 
                 $ticket = new TicketController();
+                $table = new TableController();
 
                 $newProduct = $ticket->addProduct($json->price_id, $json->table_id);
+                $newTable = $table->updateTable(0, $json->table_id);
 
                 $response = array(
                     'status' => 'ok',
                     'newProduct' => $newProduct,
+                    'newTable' => $newTable,
                 );
 
                 echo json_encode($response);

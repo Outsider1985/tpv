@@ -18,7 +18,9 @@ class TableController {
 	public function index(){
 		return $this->table->index();
 	}
-
+	public function updateTable($status, $table){
+		return $this->table->updateTable();
+	}
 	
 }
 

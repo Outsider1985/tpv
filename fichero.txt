@@ -1,0 +1,1 @@
+INSERT INTO ticket (price_id, table_id, active, created_at, updated_at) VALUES (23, 5, 1, NOW(), NOW())

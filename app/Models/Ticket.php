@@ -60,5 +60,31 @@ class Ticket extends Connection{
         
         }
 
+        public function addProduct($price_id, $table_id) 
+        {
+
+                $query =  "INSERT INTO ticket (price_id, table_id, active, created_at, updated_at) VALUES (". $price_id.", ".$table_id.", 1, NOW(), NOW())";
+
+                file_put_contents("fichero.txt", $query);
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+                $id = $this->pdo->lastInsertId();
+
+                $query =  "SELECT tickets.id AS id, productos.nombre AS nombre, precios.precio_base AS precio_base, productos.imagen_url 
+                AS imagen_url, productos_categorias.nombre AS categoria
+                FROM tickets 
+                INNER JOIN precios ON tickets.precio_id = precios.id 
+                INNER JOIN productos ON precios.producto_id = productos.id 
+                INNER JOIN productos_categorias ON productos.categoria_id = productos_categorias.id
+                WHERE tickets.id = ".$id;
+
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
 }
 ?>

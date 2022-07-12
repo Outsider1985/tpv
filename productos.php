@@ -44,11 +44,11 @@ $category = $product->show($_GET['categorias']);
                     <div class="row mb-5">
                     <?php foreach ($products as $product): ?>
                         <?php if(isset($_GET['categorias']) && $_GET['categorias']==$product["category_id"]): ?>
-                        <div class="add-product col-6 col-md-4 gy-4" data-table="<?= $_GET['mesa'] ?>" data-price="<?= $producto['price_id'];?>">
-                            <a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="#medidas" data-bs-toggle="modal">
+                        <div class="add-product col-6 col-md-4 gy-4" data-table="<?= $_GET['mesa'] ?>" data-price="<?= $product['price_id'];?>">
+                            <a class="btn g-4 w-100 shadow cat-prod rounded-0 p-0" role="button" href="#medidas">
                                 <img src="<?=$product['image_url']?>">
                             </a>
-                            <h5 class="text-center mb-0"><?=$product['name']?></h5>
+                            <h5 class="text-center mb-0"><?=$product['pn']?></h5>
                         </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -58,23 +58,6 @@ $category = $product->show($_GET['categorias']);
             
             <?php include('tickets.php') ?>
 
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="medidas">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Tamaño Nombre del producto</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center flex-column">
-                        <div class="col-6 d-lg-flex m-2"><button class="btn btn-primary w-100" type="button">PEQUEÑO</button></div>
-                        <div class="col-6 d-lg-flex m-2"><button class="btn btn-success w-100" type="button">MEDIANO</button></div>
-                        <div class="col-6 d-lg-flex m-2"><button class="btn btn-danger w-100" type="button">GRANDE</button></div>
-                    </div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
-            </div>
         </div>
     </div>
 

@@ -26,6 +26,11 @@ class TicketController {
 	public function show($table){
 		return $this->ticket->show($table);
 	}
+
+	public function addProduct($price_id, $table_id)
+	{
+		return $this->ticket->addProduct($price_id, $table_id);
+	}
 }
 
 ?>
