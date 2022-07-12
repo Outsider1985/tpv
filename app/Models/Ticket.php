@@ -11,7 +11,8 @@ class Ticket extends Connection{
 	public function index($table){
 
                 $query =
-                        "SELECT product_category.name AS CATEGORIA,
+                        "SELECT ticket.id AS TICKET, 
+                        product_category.name AS CATEGORIA,
                         product.name AS PRODUCTO,
                         price.base_price AS BASE_IMPONIBLE_INDEX,
                         product.image_url AS IMAGEN
@@ -65,19 +66,17 @@ class Ticket extends Connection{
 
                 $query =  "INSERT INTO ticket (price_id, table_id, active, created_at, updated_at) VALUES (". $price_id.", ".$table_id.", 1, NOW(), NOW())";
 
-                file_put_contents("fichero.txt", $query);
-
                 $stmt = $this->pdo->prepare($query);
                 $result = $stmt->execute();
                 $id = $this->pdo->lastInsertId();
 
-                $query =  "SELECT tickets.id AS id, productos.nombre AS nombre, precios.precio_base AS precio_base, productos.imagen_url 
-                AS imagen_url, productos_categorias.nombre AS categoria
-                FROM tickets 
-                INNER JOIN precios ON tickets.precio_id = precios.id 
-                INNER JOIN productos ON precios.producto_id = productos.id 
-                INNER JOIN productos_categorias ON productos.categoria_id = productos_categorias.id
-                WHERE tickets.id = ".$id;
+                $query =  "SELECT ticket.id AS id, product.name AS name, price.base_price AS bp, product.image_url 
+                AS image_url, product_category.name AS category
+                FROM ticket 
+                INNER JOIN price ON ticket.price_id = price.id 
+                INNER JOIN product ON price.product_id = product.id 
+                INNER JOIN product_category ON product.category_id = product_category.id
+                WHERE ticket.id = ".$id;
 
 
                 $stmt = $this->pdo->prepare($query);
@@ -85,6 +84,37 @@ class Ticket extends Connection{
 
                 return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+
+        public function deleteProduct($ticket_id) 
+        {
+
+                $query =        "UPDATE ticket 
+                                SET active=0
+                                WHERE id = $ticket_id";
+                
+                file_put_contents("fichero.txt", $query);
+
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return 'ok';
+        }
+
+        public function deleteAllProducts($table_id) 
+        {
+
+                $query =        "UPDATE ticket 
+                                SET active=0
+                                WHERE table_id = $table_id
+                                AND sales_id IS NULL";
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return 'ok';
+        }
+
 
 }
 ?>

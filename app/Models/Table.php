@@ -20,7 +20,7 @@ class Table extends Connection{
 
         public function updateTable($status, $table){
 
-                $query =  "UPDATE tables SET status=$status, updated_at=NOW() WHERE id = $table;)";
+                $query =  "UPDATE tables SET status=$status, updated_at=NOW() WHERE id = $table";
 
                 $stmt = $this->pdo->prepare($query);
                 $result = $stmt->execute();

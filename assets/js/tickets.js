@@ -1,27 +1,27 @@
 export let renderTickets = () => {
+    
+    let deleteProducts = document.querySelectorAll(".delete-product");
+    let deleteAllProducts = document.querySelector(".delete-all-products");
 
-    let addProducts = document.querySelectorAll(".add-product");
+    deleteProducts.forEach(deleteProduct => {
 
-    addProducts.forEach(addProduct => {
-
-        addProduct.addEventListener("click", (event) => {
+        deleteProduct.addEventListener("click", (event) => {
             
-            console.log(addProduct);
             //Una llama async va acompañada de una await. 
             let sendPostRequest = async () => {
 
                 //variable de tipo json. clave, valor
                 let data = {};
-                data["route"] = 'addProduct';
-                data["price_id"] = addProduct.dataset.price;
-                data["table_id"] = addProduct.dataset.table;
+                data["route"] = 'deleteProduct';
+                data["ticket_id"] = deleteProduct.dataset.ticket;
+                data["table_id"] = deleteProduct.dataset.table;
     
                 //Se envia la peticion al servidor. Todas las llamadas irán a web.php de forma centralizada.
                 let response = await fetch('web.php', {
                     headers: {
                         'Accept': 'application/json',
                     },
-                    method: 'POST',
+                    method: 'DELETE',
                     body: JSON.stringify(data)
                 })
                 //Then se ejecuta cuando la llamada async termina.
@@ -32,16 +32,52 @@ export let renderTickets = () => {
                     return response.json();
                 })
                 .then(json => {
-    
+
                 })
                 .catch ( error =>  {
-                    console.log(JSON.stringify(error));
+                    console.log(error);
                 });
             };
     
             sendPostRequest();
         }); 
     });
-        
 
-};
+    if(deleteAllProducts){
+             
+        deleteAllProducts.addEventListener("click", (event) => {
+
+            let sendPostRequest = async () => {
+
+                let data = {};
+
+                data["route"] = 'deleteAllProducts';
+                data["table_id"] = deleteAllProducts.dataset.table;
+
+                let response = await fetch('web.php', {
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    method: 'DELETE',
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                        
+                        if (!response.ok) throw response;
+        
+                        return response.json();
+                    })
+                    .then(json => {
+
+                    })
+                    .catch ( error =>  {
+                        console.log(JSON.stringify(error));
+                    });
+                };
+                
+                sendPostRequest();
+            });  
+            
+        };
+    }
+    

@@ -19,7 +19,7 @@ class TableController {
 		return $this->table->index();
 	}
 	public function updateTable($status, $table){
-		return $this->table->updateTable();
+		return $this->table->updateTable($status, $table);
 	}
 	
 }

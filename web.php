@@ -38,7 +38,45 @@
 
                 break;
 
-            }
+            case 'deleteProduct':
+
+                $ticket = new TicketController();
+                $mesa = new TableController();
+
+                $delete_product = $ticket->deleteProduct($json->ticket_id);
+                $total = $ticket->total($json->table_id);
+
+                if(empty($total)){
+                    $mesa->updateTable(1, $json->table_id);
+                }
+                
+                $response = array(
+                    'status' => 'ok',
+                    'totales' => $total
+                );
+
+                echo json_encode($response);
+
+                break;
+
+            case 'deleteAllProducts':
+
+                $ticket = new TicketController();
+                $mesa = new TableController();
+
+                $delete_products = $ticket->deleteAllProducts($json->table_id);
+                $total = $ticket->total($json->table_id);
+                $mesa->updateTable(1, $json->table_id);
+                
+                $response = array(
+                    'total' => $total,
+                    'status' => 'ok'
+                );
+
+                echo json_encode($response);
+
+                break;
+        }
 
 
     } else {
