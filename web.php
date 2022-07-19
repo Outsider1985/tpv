@@ -5,12 +5,14 @@
     require_once 'app/Controllers/IvaController.php';
     require_once 'app/Controllers/MetodoPagoController.php';
     require_once 'app/Controllers/ProductCategoryController.php';
+    require_once 'app/Controllers/ProductController.php';
   
     use app\Controllers\TicketController;
     use app\Controllers\TableController;
     use app\Controllers\IvaController;
     use app\Controllers\MetodoPagoController;
     use app\Controllers\ProductCategoryController;
+    use app\Controllers\ProductController;
 
     //recibirá un json
     header("Content-Type: application/json");
