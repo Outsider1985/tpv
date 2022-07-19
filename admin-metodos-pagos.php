@@ -1,11 +1,11 @@
 <?php
 
-	require_once 'app/Controllers/IvaController.php';
+	require_once 'app/Controllers/MetodoPagoController.php';
 
-	use app\Controllers\IvaController;
+	use app\Controllers\MetodoPagoController;
 
-	$iva = new IvaController();
-	$ivas = $iva->index();
+	$metodo_pago = new MetodoPagoController();
+	$metodos_pagos = $metodo_pago->index();
 
 ?>
 
@@ -25,17 +25,19 @@
 </head>
 
 <body>
-<?php include('menu.php') ?>
+
+    <?php include('menu.php') ?>
+    
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center mt-3 border titular"><small class="small-admin">PANEL DE ADMINISTRACIÓN</small>: IVA</h1>
+                <h1 class="text-center mt-3 border titular"><small class="small-admin">PANEL DE ADMINISTRACIÓN</small>MÉTODOS DE PAGO</h1>
             </div>
             <div class="col-12 mt-5">
                 <section>
                     <div class="row">
                         <div class="col d-flex justify-content-end">
-                            <button type="button" class="create-form-button btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addArticle">+ Añadir IVA</button>
+                            <button type="button" class="create-form-button btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addArticle">+ Añadir método</button>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -43,23 +45,21 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                    <th scope="col">Tipo de Iva</th>
-                                    <th scope="col">Vigente</th>
+                                    <th scope="col">Método de pago</th>
                                     <th scope="col">Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($ivas as $iva): ?>
-                                        <tr class="table-element" data-element="<?= $iva['id'] ?>">
-                                            <th scope="row" class="tipo_iva">
-                                                <?= $iva['type'] ?>
+                                    <?php foreach($metodos_pagos as $metodo_pago): ?>
+                                        <tr class="table-element" data-element="<?= $metodo_pago['id'] ?>">
+                                            <th scope="row" class="nombre">
+                                                <?= $metodo_pago['name'] ?>
                                             </th>
-                                            <td class="vigente"><?= $iva['valid'] ?></td>
                                             <td class="opciones">
-                                                <button type="button" class="edit-table-button btn btn-success" data-bs-toggle="modal" data-id="<?= $iva['id'] ?>" data-route="showIva" data-bs-target="#addArticle">
+                                                <button type="button" class="edit-table-button btn btn-success" data-bs-toggle="modal" data-id="<?= $metodo_pago['id'] ?>" data-route="showMetodoPago" data-bs-target="#addArticle">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
-                                                <button type="button" class="delete-table-button btn btn-danger" data-id="<?= $iva['id'] ?>" data-bs-toggle="modal" data-bs-target="#deleteArticle">
+                                                <button type="button" class="delete-table-button btn btn-danger" data-id="<?= $metodo_pago['id'] ?>" data-bs-toggle="modal" data-bs-target="#deleteArticle">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </td>
@@ -67,22 +67,21 @@
                                     <?php endforeach; ?>
 
                                     <tr class="create-layout table-element d-none" data-element="">
-                                        <th scope="row" class="tipo_iva"></th>
-                                        <td class="vigente"></td>
+                                        <th scope="row" class="nombre"></th>
                                         <td class="opciones">
-                                            <button type="button" class="edit-table-button btn btn-success" data-bs-toggle="modal" data-id="" data-route="showIva" data-bs-target="#addArticle">
+                                            <button type="button" class="edit-table-button btn btn-success" data-bs-toggle="modal" data-id="" data-route="showMetodoPago" data-bs-target="#addArticle">
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                             <button type="button" class="delete-table-button btn btn-danger" data-id="" data-bs-toggle="modal" data-bs-target="#deleteArticle">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
-                                    </tr> 
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!-- <div class="row justify-content-center">
+                    <div class="row justify-content-center">
                         <div class="col">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
@@ -102,7 +101,7 @@
                                 </ul>
                             </nav>
                         </div>
-                    </div> -->
+                    </div>
                 </section>
             </div>
 
@@ -114,23 +113,16 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addArticleLabel">AÑADIR TIPO DE IVA</h5>
+                    <h5 class="modal-title" id="addArticleLabel">AÑADIR METODO DE PAGO</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!--El campo data-route="storeIva" es un caso de los que hay en web.php-->
-                    <form class="admin-form" data-route="storeIva">
+                    <!--El campo data-route="storeMetodoPago" es un caso de los que hay en web.php-->
+                    <form class="admin-form" data-route="storeMetodoPago">
                         <input type="hidden" name="id" value="">
                         <div class="mb-3">
-                            <label for="tipo_iva" class="form-label">Tipo de IVA</label>
-                            <input type="number" class="form-control" name="tipo_iva" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="vigente" class="form-label">Vigencia</label>
-                            <select class="form-select" aria-label="Default select example" name="vigente">
-                                <option value="0">no vigente</option>
-                                <option value="1" selected>vigente</option>
-                            </select>
+                            <label for="nombre" class="form-label">Metodo de pago</label>
+                            <input type="text" class="form-control" name="nombre" value="">
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary mt-3 me-2" data-bs-dismiss="modal">CERRAR</button>
@@ -148,15 +140,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteArticleLabel">ELIMINAR IVA</h5>
+                    <h5 class="modal-title" id="deleteArticleLabel">ELIMINAR MÉTODO DE PAGO</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-center text-muted">Está a punto de borrar una tipo de iva. ¿Está completamente seguro de realizar esta acción?</p>
+                    <p class="text-center text-muted">Está a punto de borrar un método de pago. ¿Está completamente seguro de realizar esta acción?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                    <button type="button" class="delete-table-modal btn btn-primary" data-bs-dismiss="modal" data-route="deleteIva">ELIMINAR</button>
+                    <button type="button" class="delete-table-modal btn btn-primary" data-bs-dismiss="modal" data-route="deleteMetodoPago">ELIMINAR</button>
                 </div>
             </div>
         </div>

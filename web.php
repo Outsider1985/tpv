@@ -3,10 +3,14 @@
     require_once 'app/Controllers/TicketController.php';
     require_once 'app/Controllers/TableController.php';
     require_once 'app/Controllers/IvaController.php';
+    require_once 'app/Controllers/MetodoPagoController.php';
+    require_once 'app/Controllers/ProductCategoryController.php';
   
     use app\Controllers\TicketController;
     use app\Controllers\TableController;
     use app\Controllers\IvaController;
+    use app\Controllers\MetodoPagoController;
+    use app\Controllers\ProductCategoryController;
 
     //recibirá un json
     header("Content-Type: application/json");
@@ -114,6 +118,97 @@
     
                     $iva = new IvaController();
                     $iva->delete($json->id);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+
+                    // casos para la administracion de los metodos de pago
+
+                case 'storeMetodoPago':
+
+                    $metodo_pago = new MetodoPagoController();
+                    $new_metodo_pago = $metodo_pago->store($json->id, $json->nombre);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id,
+                        'newElement' => $new_metodo_pago
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'showMetodoPago':
+    
+                    $metodo_pago = new MetodoPagoController();
+                    $metodo_pago = $metodo_pago->show($json->id);
+                    
+                    $response = array(
+                        'status' => 'ok',
+                        'element' => $metodo_pago,
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'deleteMetodoPago':
+    
+                    $metodo_pago = new MetodoPagoController();
+                    $metodo_pago->delete($json->id);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+
+
+                // casos para la administracion de las categorias de productos
+
+                case 'storeProductCategory':
+
+                    $categoria = new ProductCategoryController();
+                    $new_categoria = $categoria->store($json->id, $json->nombre);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id,
+                        'newElement' => $new_categoria
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'showProductCategory':
+    
+                    $categoria = new ProductCategoryController();
+                    $categoria = $categoria->show($json->id);
+                    
+                    $response = array(
+                        'status' => 'ok',
+                        'element' => $categoria,
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'deleteProductCategory':
+    
+                    $categoria = new ProductCategoryController();
+                    $categoria->delete($json->id);
     
                     $response = array(
                         'status' => 'ok',

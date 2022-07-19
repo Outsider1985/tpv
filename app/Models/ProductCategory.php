@@ -8,6 +8,16 @@ use core\Connection;
 
 class ProductCategory extends Connection{
 
+        public function filter() {
+
+                $query =  "SELECT * FROM product_category WHERE active = 1";
+				
+			$stmt = $this->pdo->prepare($query);
+			$result = $stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 	public function index(){
 
         $query =  "SELECT product_category.name AS NOMBRE_CATEGORIA, product_category.id AS ID_CATEGORIA, product_category.image_url AS IMAGEN_CATEGORIA
@@ -21,6 +31,63 @@ class ProductCategory extends Connection{
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+        public function store($id, $nombre) {
+
+                if (empty($id)) {
+                        
+                        $query = "INSERT INTO product_category (name, active, created_at, updated_at)
+                                        VALUES ('$nombre', 1, NOW(), NOW())";
+                                        
+               
+
+                        $stmt = $this->pdo->prepare($query);
+                        $result = $stmt->execute();
+                        $id = $this->pdo->lastInsertId();
+                
+                } else {
+
+                        $query = "UPDATE product_category SET name = '$nombre', updated_at = NOW() WHERE id = $id";
+                        
+                        $stmt = $this->pdo->prepare($query);
+                        $result = $stmt->execute();
+                        
+                        
+
+                };
+                
+                $query = "SELECT * FROM product_category WHERE id = $id";
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        }
+
+        public function show($id) {
+                
+                $query = "SELECT * FROM product_category WHERE id = $id";
+                
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return $stmt->fetch(PDO::FETCH_ASSOC); 
+        
+        }
+
+        public function delete($id) {
+                
+                $query = "UPDATE product_category SET active = 0, updated_at = NOW() WHERE id = $id";
+                        
+                        
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return $stmt->fetch(PDO::FETCH_ASSOC); 
+        
+        }
+
 }
 
 ?>
