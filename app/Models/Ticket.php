@@ -92,7 +92,7 @@ class Ticket extends Connection{
                                 SET active=0
                                 WHERE id = $ticket_id";
                 
-                file_put_contents("fichero.txt", $query);
+                
 
 
                 $stmt = $this->pdo->prepare($query);

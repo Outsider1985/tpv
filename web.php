@@ -2,9 +2,11 @@
 
     require_once 'app/Controllers/TicketController.php';
     require_once 'app/Controllers/TableController.php';
+    require_once 'app/Controllers/IvaController.php';
   
     use app\Controllers\TicketController;
     use app\Controllers\TableController;
+    use app\Controllers\IvaController;
 
     //recibirá un json
     header("Content-Type: application/json");
@@ -76,6 +78,51 @@
                 echo json_encode($response);
 
                 break;
+
+                // casos PANEL del IVA
+
+                case 'storeIva':
+
+                    $iva = new IvaController();
+                    $new_iva = $iva->store($json->id, $json->tipo_iva, $json->vigente);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id,
+                        'newElement' => $new_iva
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'showIva':
+    
+                    $iva = new IvaController();
+                    $iva = $iva->show($json->id);
+                    
+                    $response = array(
+                        'status' => 'ok',
+                        'element' => $iva,
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
+                
+                case 'deleteIva':
+    
+                    $iva = new IvaController();
+                    $iva->delete($json->id);
+    
+                    $response = array(
+                        'status' => 'ok',
+                        'id' => $json->id
+                    );
+    
+                    echo json_encode($response);
+    
+                    break;
         }
 
 
