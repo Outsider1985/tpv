@@ -42,6 +42,10 @@ class TicketController {
 	{
 		return $this->ticket->deleteAllProducts($table_id);
 	}
+
+	public function getChartData($chart_data){
+		return $this->ticket->getChartData($chart_data);
+	}
 }
 
 ?>

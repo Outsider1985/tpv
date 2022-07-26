@@ -28,8 +28,28 @@ export let renderAdminForm = () => {
                 let formData = new FormData(adminForm);
                 formData.append("route", adminForm.dataset.route);
 
-                formData.forEach(function(value, key){
-                    data[key] = value;
+                formData.forEach((value, key) => {
+
+                    if(value instanceof File && value.size > 0) {
+
+                        let file = {
+                            'lastMod'    : value.lastModified,
+                            'lastModDate': value.lastModifiedDate,
+                            'name'       : value.name,
+                            'size'       : value.size,
+                            'type'       : value.type,
+                        } 
+
+                        data[key] = file;
+
+                        fetch ('upload.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }
+                    else {
+                        data[key] = value;
+                    }
                 });
 
                 let response = await fetch('web.php', {
@@ -57,8 +77,15 @@ export let renderAdminForm = () => {
                         newElement.querySelector('.edit-table-button').dataset.id = json.newElement.id;
 
                         Object.entries(json.newElement).forEach(([key, value]) => {
+                            
                             if(newElement.querySelector("." + key)){
-                                newElement.querySelector("." + key).innerHTML = value;
+
+                                if(newElement.querySelector("." + key).tagName == "IMG") {
+
+                                    newElement.querySelector("." + key).src = value;
+                                }else{
+                                    newElement.querySelector("." + key).innerHTML = value;
+                                }
                             }
                         });
 
@@ -71,8 +98,15 @@ export let renderAdminForm = () => {
                         let element = document.querySelector("[data-element='" + json.id + "']");
 
                         Object.entries(json.newElement).forEach(([key, value]) => {
+                            
                             if(element.querySelector("." + key)){
-                                element.querySelector("." + key).innerHTML = value;
+
+                                if(element.querySelector("." + key).tagName == "IMG") {
+
+                                    element.querySelector("." + key).src = value;
+                                }else{
+                                    element.querySelector("." + key).innerHTML = value;
+                                }
                             }
                         });
 

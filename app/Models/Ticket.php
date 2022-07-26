@@ -115,6 +115,61 @@ class Ticket extends Connection{
                 return 'ok';
         }
 
+        public function getChartData($chart_data){
+
+
+                switch($chart_data) {
+                        
+                        case 'best_dishes':
+
+                                $query="SELECT  product.name AS labels,
+                                                                COUNT(product.id) AS data
+                                                                FROM sales
+                                                                INNER JOIN ticket ON ticket.sales_id = sales.id
+                                                                INNER JOIN price ON price.id = ticket.price_id
+                                                                INNER JOIN product ON product.id = price.product_id
+                                                                INNER JOIN product_category ON product_category.id = product.category_id
+                                                                WHERE product_category.name IN ('tapas')
+                                                                GROUP BY product.id
+                                                                ORDER BY data DESC";
+
+                        break;
+
+                        case 'best_drinks':
+                                
+                                $query="SELECT  product.name AS labels,
+                                                                COUNT(product.id) AS data
+                                                                FROM sales
+                                                                INNER JOIN ticket ON ticket.sales_id = sales.id
+                                                                INNER JOIN price ON price.id = ticket.price_id
+                                                                INNER JOIN product ON product.id = price.product_id
+                                                                INNER JOIN product_category ON product_category.id = product.category_id
+                                                                WHERE product_category.name NOT IN ('tapas')
+                                                                GROUP BY product.id
+                                                                ORDER BY data DESC";
+                        break;
+                          
+                        case 'best_categories':
+
+                                $query="SELECT	product_category.name AS labels,
+                                                                SUM(price.base_price) AS data
+                                                                FROM sales
+                                                                INNER JOIN ticket ON ticket.sales_id = sales.id
+                                                                INNER JOIN price ON price.id = ticket.price_id
+                                                                INNER JOIN product ON product.id = price.product_id
+                                                                INNER JOIN product_category ON product_category.id = product.category_id
+                                                                GROUP BY product_category.id
+                                                                ORDER BY data DESC";
+
+                        break;
+                }
+
+                $stmt = $this->pdo->prepare($query);
+                $result = $stmt->execute();
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 
 }
 ?>

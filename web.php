@@ -1,12 +1,13 @@
 <?php
-
+    require_once 'app/Controllers/SaleController.php';   
     require_once 'app/Controllers/TicketController.php';
     require_once 'app/Controllers/TableController.php';
     require_once 'app/Controllers/IvaController.php';
     require_once 'app/Controllers/MetodoPagoController.php';
     require_once 'app/Controllers/ProductCategoryController.php';
     require_once 'app/Controllers/ProductController.php';
-  
+
+    use app\Controllers\SaleController;
     use app\Controllers\TicketController;
     use app\Controllers\TableController;
     use app\Controllers\IvaController;
@@ -220,11 +221,42 @@
                     echo json_encode($response);
     
                     break;
-        }
 
-
-    } else {
-        echo json_encode(array('error' => 'No action'));
-    }    
-
-?>
+                    case 'getSaleChartData':
+        
+                        $sale = new VentaController();
+                        $data = $sale->getChartData($json->chart_data);
+                        
+                        foreach($data as $value){
+                            $response['labels'][] = isset($value['labels']) ? $value['labels'] : null;
+                            $response['data'][] = isset($value['data']) ? $value['data'] : null;
+                            $response['quantity'][] = isset($value['quantity']) ? $value['quantity'] : null;
+                        }
+        
+                        echo json_encode($response);
+                        
+                        break;
+                    
+                        
+                    case 'getTicketChartData':
+        
+                        $ticket = new TicketController();
+                        $data = $ticket->getChartData($json->chart_data);
+                        
+                        foreach($data as $value){
+                            $response['labels'][] = isset($value['labels']) ? $value['labels'] : null;
+                            $response['data'][] = isset($value['data']) ? $value['data'] : null;
+                            $response['quantity'][] = isset($value['quantity']) ? $value['quantity'] : null;
+                        }
+        
+                        echo json_encode($response);
+                        
+                        break;
+            
+                    }
+            
+                } else {
+                    echo json_encode(array('error' => 'No action'));
+                }    
+                
+            ?>

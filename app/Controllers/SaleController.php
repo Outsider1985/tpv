@@ -27,6 +27,12 @@ class SaleController {
 		return $this->sale->showProducts($sale);
 	}
 
+	public function getChartData($chart_data){
+		return $this->venta->getChartData($chart_data);
+	}
+
+	
+
 }
 
 ?>
